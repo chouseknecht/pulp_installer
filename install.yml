@@ -1,0 +1,28 @@
+- hosts: all
+  vars:
+    pulp_settings:
+      secret_key: secret
+      content_origin: "http://{{ ansible_fqdn }}"
+      x_pulp_api_host: "{{ pulp_api_host }}"
+      x_pulp_api_port: "{{ pulp_api_port }}" 
+      x_pulp_api_user: "admin"
+      x_pulp_api_password: "{{ pulp_default_admin_password }}"
+      x_pulp_api_prefix: "pulp_ansible/galaxy/automation-hub/api"
+      galaxy_require_content_approval: "False"
+      # pulp_token_auth_disabled: "True"
+    pulp_default_admin_password: password
+    pulp_install_plugins:
+      pulp-ansible: {}
+      galaxy-ng: {}
+      pulp-container:
+        version: 2.0.0b2
+    pulp_api_workers: 4
+  roles:
+    - pulp_database
+    - pulp_workers
+    - pulp_resource_manager
+    - pulp_webserver
+    - pulp_content
+    - chouseknecht.ansible_galaxy_config
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings

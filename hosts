@@ -1,0 +1,4 @@
+all:
+  hosts:
+    100.25.118.17: 
+      ansible_user: centos
